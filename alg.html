@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fusion Analytics Onboarding: Suppression, Dominance & Best Match</title>
+  <style>
+    :root{
+      --ink:#132238;--muted:#5c6b80;--bg:#f6f8fb;--card:#ffffff;--line:#d9e2ef;
+      --blue:#2563eb;--blue2:#dbeafe;--green:#16a34a;--green2:#dcfce7;
+      --amber:#d97706;--amber2:#fef3c7;--red:#dc2626;--red2:#fee2e2;
+      --purple:#7c3aed;--purple2:#ede9fe;--slate:#334155;--code:#0f172a;
+      --shadow:0 12px 30px rgba(15,23,42,.08);--radius:18px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#eef4ff 0%,var(--bg) 340px);line-height:1.55}
+    a{color:var(--blue);text-decoration:none} a:hover{text-decoration:underline}
+    .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+    .hero{display:grid;grid-template-columns:1.3fr .7fr;gap:24px;align-items:stretch;margin-top:14px}
+    .hero-card{background:rgba(255,255,255,.88);border:1px solid rgba(148,163,184,.35);border-radius:26px;padding:34px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#1e40af;background:#dbeafe;border:1px solid #bfdbfe;border-radius:999px;padding:7px 12px;font-size:13px}
+    h1{font-size:clamp(34px,5vw,58px);line-height:1.02;margin:18px 0 16px;letter-spacing:-.04em}
+    h2{font-size:32px;margin:0 0 12px;letter-spacing:-.025em} h3{font-size:22px;margin:0 0 10px} h4{font-size:16px;margin:16px 0 6px;color:#1e293b}
+    p{margin:0 0 14px}.lead{font-size:19px;color:#334155;max-width:78ch}.muted{color:var(--muted)}
+    .toc{background:#0f172a;color:white;border-radius:26px;padding:24px;box-shadow:var(--shadow)}.toc h3{color:white}.toc a{display:block;color:#dbeafe;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12)}.toc small{color:#bfdbfe}
+    .grid{display:grid;gap:18px}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:repeat(2,1fr)}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:0 6px 18px rgba(15,23,42,.05)}
+    .section{margin-top:28px}.pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 10px;font-weight:700;font-size:12px;border:1px solid var(--line);background:#f8fafc;color:#334155}.pill.blue{background:var(--blue2);border-color:#bfdbfe;color:#1d4ed8}.pill.green{background:var(--green2);border-color:#bbf7d0;color:#15803d}.pill.amber{background:var(--amber2);border-color:#fde68a;color:#b45309}.pill.red{background:var(--red2);border-color:#fecaca;color:#b91c1c}.pill.purple{background:var(--purple2);border-color:#ddd6fe;color:#6d28d9}
+    .concept{position:relative;overflow:hidden}.concept:before{content:"";position:absolute;top:0;left:0;width:7px;height:100%;background:var(--blue)}.concept.green:before{background:var(--green)}.concept.amber:before{background:var(--amber)}.concept.purple:before{background:var(--purple)}
+    .big{font-size:44px;line-height:1;margin-bottom:8px}.kicker{font-weight:800;color:#1e293b}.callout{border-left:5px solid var(--blue);background:#eff6ff;padding:16px;border-radius:14px;margin:16px 0}.warning{border-left-color:var(--amber);background:#fffbeb}.danger{border-left-color:var(--red);background:#fff1f2}.success{border-left-color:var(--green);background:#f0fdf4}.purplebox{border-left-color:var(--purple);background:#f5f3ff}
+    table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:white} th,td{padding:12px 13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top} th{background:#f1f5f9;color:#334155;font-size:13px;text-transform:uppercase;letter-spacing:.04em} tr:last-child td{border-bottom:0}
+    .flow{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.step{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:0 4px 14px rgba(15,23,42,.04)}.num{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--blue);color:white;font-weight:800}.arrow{align-self:center;color:#94a3b8;font-weight:900}
+    pre{margin:14px 0;background:#0f172a;color:#dbeafe;border-radius:16px;padding:18px;overflow:auto;font-size:13.5px;line-height:1.55} code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.inline-code{background:#eef2ff;color:#3730a3;padding:2px 5px;border-radius:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.92em}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;cursor:pointer;font-weight:700;color:#475569}.tab.active{background:#1d4ed8;color:#fff;border-color:#1d4ed8}.tab-panel{display:none}.tab-panel.active{display:block}
+    .sim{display:grid;grid-template-columns:340px 1fr;gap:18px}.controls label{display:block;font-size:13px;font-weight:700;color:#334155;margin:12px 0 5px}.controls input{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px}.btn{border:0;background:#1d4ed8;color:white;font-weight:800;border-radius:12px;padding:12px 16px;cursor:pointer;margin-top:12px}.btn.secondary{background:#475569}.bar-zone{display:grid;gap:12px}.firmbar{display:grid;grid-template-columns:90px 1fr 56px;gap:10px;align-items:center}.firm-name{font-weight:800}.blocks{display:flex;gap:5px;flex-wrap:wrap;min-height:32px}.block{width:26px;height:26px;border-radius:7px;border:1px solid rgba(15,23,42,.15);display:grid;place-items:center;font-size:10px;font-weight:800;background:#dbeafe;color:#1e40af}.block.keep{background:#dcfce7;color:#166534}.block.remove{background:#fee2e2;color:#991b1b;text-decoration:line-through}.block.hintF{outline:3px solid #f59e0b}.block.hintL{outline:3px solid #22c55e}.legend{display:flex;gap:10px;flex-wrap:wrap;font-size:13px;color:#475569}.legend span{display:flex;align-items:center;gap:6px}.swatch{width:14px;height:14px;border-radius:4px;border:1px solid #cbd5e1}.bm-ladder{display:grid;gap:10px}.bm-step{display:grid;grid-template-columns:40px 1fr 120px;gap:10px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:12px;background:white}.status{font-weight:800;border-radius:999px;text-align:center;padding:6px 8px;font-size:12px}.yes{background:#dcfce7;color:#166534}.no{background:#fee2e2;color:#991b1b}.maybe{background:#fef3c7;color:#92400e}
+    details{background:white;border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0} summary{font-weight:800;cursor:pointer;color:#1e293b}.footer{margin-top:32px;padding:24px;border-radius:22px;background:#0f172a;color:#e2e8f0}.footer a{color:#bfdbfe}.iteration{display:grid;grid-template-columns:90px 1fr;gap:14px}.version{font-weight:900;color:#1e40af;background:#dbeafe;border-radius:16px;padding:12px;text-align:center}.small{font-size:13px}.checklist li{margin:8px 0}.mermaidish{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.node{border:1px solid var(--line);background:white;border-radius:16px;padding:14px;text-align:center;font-weight:800}.node small{display:block;font-weight:500;color:#64748b;margin-top:6px}.node.em{background:#eff6ff;border-color:#bfdbfe}.node.warn{background:#fffbeb;border-color:#fde68a}.node.good{background:#f0fdf4;border-color:#bbf7d0}
+    @media (max-width:900px){.hero,.sim,.grid-3,.grid-2{grid-template-columns:1fr}.mermaidish{grid-template-columns:1fr}.bm-step{grid-template-columns:34px 1fr}.bm-step .status{grid-column:2}.firmbar{grid-template-columns:70px 1fr 44px}.hero-card{padding:24px}}
+    @media print{body{background:white}.toc,.btn,.controls{display:none}.wrap{max-width:100%;padding:0}.card,.hero-card{box-shadow:none;break-inside:avoid}.tab-panel{display:block}.section{break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">Fusion Analytics Onboarding Guide</span>
+        <h1>Data Suppression, Data Dominance & Best Match — explained for new engineers</h1>
+        <p class="lead">This page turns the original analytics specification into an engineer-friendly mental model: what each algorithm protects, what inputs it needs, how it decides, and what to test before shipping.</p>
+        <div class="flow" aria-label="high level data flow">
+          <div class="step"><span class="num">1</span>Prepare market sample</div><span class="arrow">→</span>
+          <div class="step"><span class="num">2</span>Suppress unsafe stats</div><span class="arrow">→</span>
+          <div class="step"><span class="num">3</span>Balance dominance</div><span class="arrow">→</span>
+          <div class="step"><span class="num">4</span>Find best benchmark</div><span class="arrow">→</span>
+          <div class="step"><span class="num">5</span>Report with confidence</div>
+        </div>
+        <p class="muted small">Source basis: the attached Fusion Analytics document dated May 2014. This guide intentionally simplifies language and adds implementation-oriented framing for onboarding.</p>
+      </div>
+      <aside class="toc" aria-label="table of contents">
+        <h3>Start here</h3>
+        <small>Recommended reading order</small>
+        <a href="#mental-model">1. The mental model</a>
+        <a href="#suppression">2. Data Suppression</a>
+        <a href="#dominance">3. Data Dominance</a>
+        <a href="#equal-spread">4. Equal Spread sampling</a>
+        <a href="#best-match">5. Best Match</a>
+        <a href="#implementation">6. Engineering checklist</a>
+        <a href="#revision-log">7. Revision passes</a>
+      </aside>
+    </div>
+
+    <section id="mental-model" class="section card">
+      <h2>1. The simplest mental model</h2>
+      <div class="grid grid-3">
+        <div class="card concept amber">
+          <div class="big">🛡️</div>
+          <h3>Data Suppression</h3>
+          <p><strong>Question answered:</strong> “Is it safe and statistically valid to show this number?”</p>
+          <p class="muted">If the sample is too small or too few firms contributed, hide the statistic instead of showing a misleading or confidential value.</p>
+        </div>
+        <div class="card concept green">
+          <div class="big">⚖️</div>
+          <h3>Data Dominance</h3>
+          <p><strong>Question answered:</strong> “Is one firm too large in this market sample?”</p>
+          <p class="muted">If one company contributes more than the configured percentage threshold, scale it back so it does not drive the market result.</p>
+        </div>
+        <div class="card concept purple">
+          <div class="big">🎯</div>
+          <h3>Best Match</h3>
+          <p><strong>Question answered:</strong> “What is the best available market benchmark for this incumbent?”</p>
+          <p class="muted">Try the most specific job/scope first; if unavailable, walk down a configured fallback ladder until a usable market value is found.</p>
+        </div>
+      </div>
+      <div class="callout">
+        <strong>Important ordering:</strong> the document says STINC is evaluated before suppression, and STINC pre-empts suppression. In plain English: first decide if the statistic is statistically invalid; only after that do confidentiality suppression checks apply.
+      </div>
+    </section>
+
+    <section id="suppression" class="section card">
+      <span class="pill amber">Algorithm 1</span>
+      <h2>2. Data Suppression</h2>
+      <p>Data Suppression is the system’s “do not show this statistic” mechanism. It exists for two related but different reasons:</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>STINC: statistically invalid calculation</h3>
+          <p>A STINC happens when there are not enough data points — incumbents — for a calculation to be statistically valid.</p>
+          <p class="muted">Example: if the statistic requires enough market observations to calculate a percentile reliably, but the market sample is too thin, the system should mark the value as STINC rather than outputting a number.</p>
+        </div>
+        <div class="card">
+          <h3>Confidentiality suppression</h3>
+          <p>Suppression also happens when too few companies contributed data, because exposing the value could reveal or imply a participating firm’s compensation information.</p>
+          <p class="muted">Example: if only a small number of firms provided data for a job, the system may hide the median even if there are several incumbents.</p>
+        </div>
+      </div>
+
+      <h3>Typical decision flow</h3>
+      <div class="mermaidish" aria-label="suppression flow">
+        <div class="node em">Input sample<small>job, scope, element, statistic</small></div>
+        <div class="node warn">Check STINC<small>enough incumbents?</small></div>
+        <div class="node warn">Check confidentiality<small>enough firms?</small></div>
+        <div class="node good">Show statistic<small>if all rules pass</small></div>
+        <div class="node">Return reason<small>STINC or suppressed</small></div>
+      </div>
+
+      <h3>Sample rules from the specification</h3>
+      <table>
+        <thead><tr><th>Statistic</th><th>Suppression requirement in source document</th><th>Engineer-friendly interpretation</th></tr></thead>
+        <tbody>
+          <tr><td>Incumbent-weighted median</td><td>4 organisations reporting at least 1 incumbent each</td><td>Need enough contributing firms before median can be returned.</td></tr>
+          <tr><td>Low / high quartile</td><td>4 organisations with total of at least 9 incumbents</td><td>Quartiles require a wider sample than the median.</td></tr>
+          <tr><td>90th percentile</td><td>4 organisations with total of at least 25 incumbents</td><td>Tail statistics need a much larger sample.</td></tr>
+          <tr><td>Firm-weighted 3rd high median</td><td>6 organisations reporting at least 1 incumbent</td><td>Firm-level rank statistics need more firms.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warning">
+        <strong>Implementation tip:</strong> do not hard-code a single global threshold into the calculation function. The source document shows different thresholds by statistic and market/rule set. Model suppression rules as configurable reference data.
+      </div>
+
+      <details>
+        <summary>Suggested suppression result object</summary>
+        <pre><code>{
+  "statisticCode": "M_P50",
+  "value": null,
+  "status": "SUPPRESSED",
+  "reason": "CONFIDENTIALITY_RULE",
+  "firmCount": 3,
+  "incumbentCount": 12,
+  "requiredFirmCount": 4,
+  "requiredIncumbentCount": 1
+}</code></pre>
+      </details>
+    </section>
+
+    <section id="dominance" class="section card">
+      <span class="pill green">Algorithm 2</span>
+      <h2>3. Data Dominance / Balancing</h2>
+      <p>Data Dominance prevents one company from dominating the market sample. If a firm contributes more than the allowed threshold — for example 25% of incumbents for a position — its data is scaled back or balanced so the firm does not significantly drive market compensation levels.</p>
+      <div class="callout success">
+        <strong>Plain-English example:</strong> suppose a job has 40 market incumbents and Company A contributes 18. If the dominance cap is 25%, Company A should not contribute more than 10 of the 40. The balancing process reduces Company A’s included incumbents while trying to preserve the shape of Company A’s pay distribution.
+      </div>
+      <h3>Dominance loop</h3>
+      <ol>
+        <li>Group incumbents by market cut: job, scope, pay element, and any other relevant cut.</li>
+        <li>Count incumbents by firm.</li>
+        <li>Compute each firm’s share of the sample.</li>
+        <li>If any firm exceeds the configured threshold, reduce that firm to the threshold.</li>
+        <li>Recalculate shares, because reducing one firm can make another firm exceed the threshold.</li>
+        <li>Repeat until no firm exceeds the threshold.</li>
+      </ol>
+      <div class="callout warning">
+        <strong>Why repeat?</strong> The source principles state that after reducing company X to threshold, company Y may now exceed the threshold. The algorithm should continue until no company is above the cap.
+      </div>
+
+      <h3>Interactive dominance simulator</h3>
+      <p class="muted">This deliberately uses tiny numbers so new engineers can see the behavior. Edit firm counts and click “Run balancing”. Blocks marked red are removed; green blocks are retained.</p>
+      <div class="sim card">
+        <div class="controls">
+          <label for="threshold">Dominance threshold (%)</label>
+          <input id="threshold" type="number" min="5" max="80" value="25" />
+          <label for="firmA">Firm A incumbents</label><input id="firmA" type="number" min="0" max="30" value="12" />
+          <label for="firmB">Firm B incumbents</label><input id="firmB" type="number" min="0" max="30" value="8" />
+          <label for="firmC">Firm C incumbents</label><input id="firmC" type="number" min="0" max="30" value="6" />
+          <label for="firmD">Firm D incumbents</label><input id="firmD" type="number" min="0" max="30" value="5" />
+          <button class="btn" onclick="runDominance()">Run balancing</button>
+          <button class="btn secondary" onclick="resetSim()">Reset</button>
+          <div class="legend" style="margin-top:14px">
+            <span><i class="swatch" style="background:#dbeafe"></i>Original</span>
+            <span><i class="swatch" style="background:#dcfce7"></i>Kept</span>
+            <span><i class="swatch" style="background:#fee2e2"></i>Removed</span>
+          </div>
+        </div>
+        <div>
+          <div id="simSummary" class="callout">Click run to see which firms exceed the cap.</div>
+          <div id="bars" class="bar-zone" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="equal-spread" class="section card">
+      <span class="pill blue">Sampling method</span>
+      <h2>4. Equal Spread sampling</h2>
+      <p>Equal Spread is the first/default sampling method described for Fusion. It is not random. The specification explicitly requires repeatable results: running the same raw sample again should exclude the same incumbents.</p>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>What it tries to preserve</h3>
+          <p>The source document says the shape of the company’s data should remain as close as possible to the original. That means if the firm’s salaries range from low to high, the removed incumbents should be spread across the range rather than all coming from the bottom or top.</p>
+        </div>
+        <div class="card">
+          <h3>How it becomes repeatable</h3>
+          <p>Incumbents are ranked by one compensation element — for example base salary. If there is a tie, the system uses Employee ID as a secondary sort key because it is constant and unique to the employee.</p>
+        </div>
+      </div>
+      <h3>Beginner-friendly explanation</h3>
+      <p>Imagine a firm has 10 employees sorted from lowest to highest salary. We need to keep 5. Equal Spread does not keep the first 5 or last 5. It keeps roughly every other person, so the retained sample still represents the low, middle, and high parts of that firm’s distribution.</p>
+      <pre><code>Input:  01 02 03 04 05 06 07 08 09 10
+Keep:      02    04    06    08    10
+Remove: 01    03    05    07    09
+
+The exact positions depend on the keep/remove ratio and the documented rounding rule.</code></pre>
+      <h3>Implementation-shaped pseudocode</h3>
+      <pre><code>for each firm in market_cut:
+    sort firm incumbents by sampling_compensation_element asc, employee_id asc
+    original_count = count(firm incumbents)
+    target_count = allowed_count_after_dominance_cap
+    sampling_ratio = target_count / original_count
+
+    last_credit = 0
+    for k from 1 to original_count:
+        credit = k * sampling_ratio
+        # Source rule: handle .5 by leaning toward the median.
+        # Practical implementation: centralize this rounding behavior in one tested function.
+        if rounded_credit_changed(last_credit, credit, target_count):
+            keep incumbent k
+        else:
+            remove incumbent k
+        last_credit = credit</code></pre>
+      <div class="callout purplebox">
+        <strong>Hinting:</strong> The source includes worked examples for “take first” and “take last” hints. Engineer-friendly interpretation: some incumbents are pre-marked to be removed first or retained last, and the Equal Spread algorithm is then applied to the remaining eligible group when needed.
+      </div>
+      <table>
+        <thead><tr><th>Hint situation</th><th>Behavior to implement</th></tr></thead>
+        <tbody>
+          <tr><td>Take First count is less than removals needed</td><td>Remove those first, then sample remaining non-protected incumbents to remove the rest.</td></tr>
+          <tr><td>Take First count equals removals needed</td><td>Remove those; no additional sampling needed.</td></tr>
+          <tr><td>Take First count is greater than removals needed</td><td>Run sampling only within the Take First group to choose the removals.</td></tr>
+          <tr><td>Take Last count is less than retained count</td><td>Protect those, then sample the remaining incumbents as needed.</td></tr>
+          <tr><td>Take Last count equals retained count</td><td>Keep those and remove the rest.</td></tr>
+          <tr><td>Take Last count is greater than retained count</td><td>Sample within the Take Last group to reach the retained count.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="best-match" class="section card">
+      <span class="pill purple">Algorithm 3</span>
+      <h2>5. Best Match algorithm</h2>
+      <p>Best Match chooses an incumbent’s best benchmark for comparison. The source definition says it should be closest to the incumbent’s source job code, based on report setup parameters and priority orders assigned to primary scopes and roll-ups. The objective is to ensure each incumbent has a market value to compare against.</p>
+      <h3>The fallback ladder</h3>
+      <div class="bm-ladder">
+        <div class="bm-step"><span class="num">1</span><div><strong>Source Job Code + Primary Scope</strong><br><span class="muted">Most specific. Example: exact job plus geography or MBA class scope.</span></div><span class="status yes">Try first</span></div>
+        <div class="bm-step"><span class="num">2</span><div><strong>Source Job Code only</strong><br><span class="muted">If scoped market value is unavailable, try the job without the scope.</span></div><span class="status maybe">Fallback</span></div>
+        <div class="bm-step"><span class="num">3</span><div><strong>Roll-up Job Code + Primary Scope</strong><br><span class="muted">If the exact job is too thin, try a configured roll-up while keeping scope.</span></div><span class="status maybe">Fallback</span></div>
+        <div class="bm-step"><span class="num">4</span><div><strong>Roll-up Job Code only</strong><br><span class="muted">Broadest automatic match in the documented list.</span></div><span class="status no">Last resort</span></div>
+      </div>
+      <div class="callout">
+        <strong>Primary vs secondary scopes:</strong> Primary scopes are part of a position’s job description and participate in Best Match. Secondary scopes are alternate views and are not included in Best Match logic.
+      </div>
+      <h3>Best Match depends on</h3>
+      <ul>
+        <li>Best Match logic selected during report setup.</li>
+        <li>Dataset selection, including incumbents defined by job list and peer list.</li>
+        <li>Compensation element used to determine Best Match. The document says Total Compensation is typically used, with Current Year Salary often used if Total Compensation is unavailable.</li>
+        <li>Market statistic used to determine Best Match. The document says Market Median is typically used.</li>
+        <li>Suppression mode and same-store / year-on-year analysis settings.</li>
+        <li>Priority order of primary scopes and roll-ups.</li>
+      </ul>
+      <details>
+        <summary>Optional behavior: extrapolating missing quartiles</summary>
+        <p>The source says market median data is required for a position to be considered a Best Match. It also describes an option to model missing quartiles from the median: Low Quartile = 70% of market median, High Quartile = 130% of market median. It notes these factors and percentiles should be configurable by the user.</p>
+      </details>
+      <details>
+        <summary>Manual assignment</summary>
+        <p>The source says users can manually assign a best-match position for incumbents before reports are run. This supports full-population reporting when automatic logic does not assign every incumbent.</p>
+      </details>
+    </section>
+
+    <section id="implementation" class="section card">
+      <h2>6. Engineering checklist</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Domain model</h3>
+          <ul class="checklist">
+            <li>Represent suppression rules by statistic, sample type, market, and threshold.</li>
+            <li>Store STINC status separately from confidentiality suppression status.</li>
+            <li>Represent dominance threshold as configuration, not a magic number.</li>
+            <li>Track sampling element and tie-breaker explicitly.</li>
+            <li>Store Best Match sequences as ordered reference data.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Test cases</h3>
+          <ul class="checklist">
+            <li>STINC pre-empts suppression.</li>
+            <li>Median, quartile, 90th percentile use different thresholds.</li>
+            <li>Dominance balancing repeats until no firm exceeds threshold.</li>
+            <li>Equal Spread is deterministic for same input ordering.</li>
+            <li>Employee ID tie-breaker produces stable ordering.</li>
+            <li>Best Match walks fallback ladder in configured order.</li>
+            <li>Manual Best Match overrides automatic assignment where applicable.</li>
+          </ul>
+        </div>
+      </div>
+      <h3>Common pitfalls</h3>
+      <table>
+        <thead><tr><th>Pitfall</th><th>Why it is risky</th><th>Safer approach</th></tr></thead>
+        <tbody>
+          <tr><td>Using random sampling</td><td>Results are not repeatable.</td><td>Use deterministic Equal Spread logic and stable tie-breakers.</td></tr>
+          <tr><td>Applying suppression before STINC</td><td>Contradicts the documented rule ordering.</td><td>Evaluate STINC first, then confidentiality suppression.</td></tr>
+          <tr><td>Only balancing once</td><td>Another firm may exceed the cap after the first reduction.</td><td>Loop until all firms are within threshold.</td></tr>
+          <tr><td>Hard-coding Best Match ladder</td><td>Priority orders can vary by setup and business rules.</td><td>Store the ladder as configurable ordered reference data.</td></tr>
+          <tr><td>Moving huge raw samples to the API layer</td><td>Can be slow and expensive for large market datasets.</td><td>Run heavy grouping, suppression, dominance, and matching near the data; expose summarized results to the API/dashboard.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section card">
+      <h2>7. Suggested implementation shape</h2>
+      <p>For a scalable analytics platform, keep the heavy operations near the data and expose compact, explainable outputs to downstream APIs and dashboards.</p>
+      <pre><code>Raw incumbent data
+  → clean / normalize / currency handling
+  → create market cuts by job, scope, element, statistic
+  → apply STINC checks
+  → apply confidentiality suppression checks
+  → apply dominance balancing / weighting
+  → calculate statistics
+  → determine Best Match for each incumbent
+  → publish report-ready dataset with status, reason codes, and lineage</code></pre>
+      <div class="callout success">
+        <strong>Engineer-friendly output principle:</strong> every hidden or chosen value should have a reason code. New engineers should be able to answer: “Why did this statistic disappear?” or “Why was this benchmark selected?” without reverse-engineering the entire pipeline.
+      </div>
+    </section>
+
+    <section id="revision-log" class="section card">
+      <h2>8. Revision and refinement passes</h2>
+      <p class="muted">You asked for multiple iterations. I baked the refinement into the guide so engineers can see the evolution from source-spec language to onboarding-ready explanations.</p>
+      <div class="grid">
+        <div class="iteration card"><div class="version">Pass 1</div><div><strong>Translate the specification.</strong><br>Converted the PDF’s formal definitions into plain-language descriptions for suppression, dominance, equal spread, and best match.</div></div>
+        <div class="iteration card"><div class="version">Pass 2</div><div><strong>Make it engineer-friendly.</strong><br>Added decision flows, pseudocode, data model guidance, reason-code suggestions, and QA checklists.</div></div>
+        <div class="iteration card"><div class="version">Pass 3</div><div><strong>Make it beginner-friendly.</strong><br>Added simple analogies, small-number examples, an interactive dominance simulator, and “common pitfalls” to help new engineers build intuition before reading legacy implementation details.</div></div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <strong>How to use this page:</strong> place it in the project wiki or onboarding folder, then pair it with implementation-specific code links, reference data tables, and a small test dataset. Keep this page conceptual; keep production thresholds and market-specific rules in configuration/reference data.
+    </div>
+  </div>
+
+<script>
+function equalSpreadKeepIndexes(originalCount, targetCount){
+  if(targetCount >= originalCount) return Array.from({length: originalCount}, (_,i)=>i);
+  if(targetCount <= 0) return [];
+  let keep = [];
+  let lastRounded = 0;
+  let ratio = targetCount / originalCount;
+  for(let k=1;k<=originalCount;k++){
+    let credit = k * ratio;
+    // Approximation for teaching: emulate the "credit changed" behavior.
+    // Production code should implement the exact documented rounding rule centrally.
+    let adjusted = (credit <= targetCount/2) ? Math.floor(credit + 1e-9) : Math.ceil(credit - 1e-9);
+    if(adjusted !== lastRounded){ keep.push(k-1); }
+    lastRounded = adjusted;
+  }
+  // Guarantee exact count for the visual teaching aid.
+  if(keep.length > targetCount) keep = keep.slice(keep.length-targetCount);
+  while(keep.length < targetCount){
+    let candidate = Math.floor((keep.length + .5) * originalCount / targetCount);
+    if(!keep.includes(candidate) && candidate < originalCount) keep.push(candidate); else break;
+  }
+  return keep.sort((a,b)=>a-b);
+}
+function runDominance(){
+  const threshold = Math.max(1, Number(document.getElementById('threshold').value || 25)) / 100;
+  const firms = [
+    {name:'Firm A', count:Number(document.getElementById('firmA').value||0)},
+    {name:'Firm B', count:Number(document.getElementById('firmB').value||0)},
+    {name:'Firm C', count:Number(document.getElementById('firmC').value||0)},
+    {name:'Firm D', count:Number(document.getElementById('firmD').value||0)}
+  ].filter(f=>f.count>0);
+  let kept = firms.map(f=>({...f, kept:f.count, removed:0}));
+  let changed=true, guard=0;
+  while(changed && guard<20){
+    changed=false; guard++;
+    let total = kept.reduce((s,f)=>s+f.kept,0);
+    for(const f of kept){
+      let share = total ? f.kept/total : 0;
+      if(share > threshold){
+        // Solve f.kept <= threshold * (other + f.kept) => f.kept <= threshold*other/(1-threshold)
+        const other = total - f.kept;
+        const allowed = Math.max(1, Math.floor((threshold * other)/(1-threshold)));
+        if(allowed < f.kept){ f.removed += (f.kept - allowed); f.kept = allowed; changed=true; }
+      }
+    }
+  }
+  const totalBefore = firms.reduce((s,f)=>s+f.count,0);
+  const totalAfter = kept.reduce((s,f)=>s+f.kept,0);
+  document.getElementById('simSummary').innerHTML = `<strong>Result:</strong> ${totalBefore} original incumbents → ${totalAfter} kept after balancing at ${(threshold*100).toFixed(0)}% cap. ${guard>1?'The loop recalculated firm shares after each reduction.':'No repeated reduction was needed.'}`;
+  const bars = document.getElementById('bars'); bars.innerHTML='';
+  kept.forEach(f=>{
+    const row = document.createElement('div'); row.className='firmbar';
+    const name = document.createElement('div'); name.className='firm-name'; name.textContent=f.name;
+    const blocks = document.createElement('div'); blocks.className='blocks';
+    const keepIndexes = equalSpreadKeepIndexes(f.count, f.kept);
+    for(let i=0;i<f.count;i++){
+      const b = document.createElement('div'); b.className='block ' + (keepIndexes.includes(i)?'keep':'remove'); b.textContent=i+1; blocks.appendChild(b);
+    }
+    const pct = document.createElement('div'); pct.className='small muted'; pct.textContent = `${f.kept}/${f.count}`;
+    row.appendChild(name); row.appendChild(blocks); row.appendChild(pct); bars.appendChild(row);
+  });
+}
+function resetSim(){
+  document.getElementById('threshold').value=25;document.getElementById('firmA').value=12;document.getElementById('firmB').value=8;document.getElementById('firmC').value=6;document.getElementById('firmD').value=5;runDominance();
+}
+runDominance();
+</script>
+</body>
+</html>
